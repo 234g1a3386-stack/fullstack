@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>jQuery List Manipulation</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f0ececfa;
+      color: #73a0f3;
+    }
+    h2, h3 {
+      margin-bottom: 10px;
+    }
+    .temp {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #6d99cc;
+      background-color: #ece1da;
+      transition: background-color 0.3s ease;
+    }
+    #myInput {
+      padding: 8px 10px;
+      width: 250px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      display: block;
+    }
+    #output {
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      min-height: 24px;
+    }
+    #list {
+      list-style: inside disc;
+      padding-left: 0;
+      margin-bottom: 20px;
+      max-width: 300px;
+    }
+    #list li {
+      padding: 8px 12px;
+      background: #eee;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #list li.selected {
+      background-color: #b3d4fc;
+      font-weight: bold;
+      color: #004080;
+    }
+    button {
+      padding: 8px 15px;
+      margin: 4px 5px 10px 0;
+      border: none;
+      background-color: #9fc7f1;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2a3a4b;
+    }
+    button:active {
+      background-color: #6ac6fc;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hello World</h2>
+  <h3>just for fun</h3>
+  <button id="btn">Click Me</button>
+  
+  <div class="temp">
+    <p>this is a different division
+      on which we are using the class tags using jquery
+    </p>
+  </div>
+  
+  <input type="text" id="myInput" placeholder="Type something...">
+  <p id="output">Hi this text</p>
+  
+  <ul id="list">
+    <li>Item 1</li>
+  </ul>
+  
+  <button id="add">Add Item</button>
+  <button id="addf">Add Item First</button>
+  <button id="remove">Remove First</button>
+  <button id="removeLast">Remove Last</button>
+  <button id="update">Update Selected</button>
+
+  <script>
+    $(document).ready(function() {
+      
+      // Button click event
+      $("#btn").click(function() {
+        $("h2").text("Button Clicked!");
+        $("h3").text("Button Clicked! Duplicate");
+        $(".temp").css("background-color", "yellow");
+        $("p").css("font-weight", "bold");
+      });
+
+      // Button double click event
+      $("#btn").dblclick(function() {
+        $("h2").text("Button Clicked Twice!");
+        $("h3").text("Button Clicked Twice Duplicate");
+        $(".temp").css("background-color", "orange");
+        $("p").css("font-weight", "normal");
+      });
+
+      // Hover event with mouseenter and mouseleave
+      $("#btn").hover(
+        function() { // mouseenter
+          $("h2").text("Button Clicked but Hovered!");
+          $("h3").text("Button and Hovered! Duplicate");
+          $(".temp").css("background-color", "cyan");
+          $("p").css("font-style", "italic");
+        }, 
+        function() { // mouseleave - reset styles
+          $("h2").text("Hello jQuery");
+          $("h3").text("just for timepass");
+          $(".temp").css("background-color", "");
+          $("p").css({"font-weight": "", "font-style": ""});
+        }
+      );
+
+      // Append item to list
+      $("#add").click(function() {
+        $("#list").append("<li>New Item appended from script</li>");
+      });
+
+      // Prepend item to list
+      $("#addf").click(function() {
+        $("#list").prepend("<li>New Item prepended from script</li>");
+      });
+
+      // Remove first item from list
+      $("#remove").click(function() {
+        $("#list li:first").remove();
+      });
+
+      // Remove last item from list
+      $("#removeLast").click(function() {
+        $("#list li:last").remove();
+      });
+
+      // Update selected item text
+      $("#update").click(function() {
+        const newVal = $("#myInput").val().trim();
+        const selected = $("#list li.selected");
+        if (selected.length === 0) {
+          alert("Please select an item from the list to update.");
+          return;
+        }
+        if(newVal === "") {
+          alert("Input field cannot be empty to update.");
+          return;
+        }
+        selected.text(newVal);
+        $("#output").text("Updated item to: " + newVal);
+      });
+
+      // Update output text as user types
+      $("#myInput").on('input', function() {
+        let val = $(this).val();
+        $("#output").text(val);
+      });
+
+      // Select list item on click (toggle selection)
+      $("#list").on("click", "li", function() {
+        $("#list li").removeClass("selected");  // single selection
+        $(this).addClass("selected");
+        // Update input with selected item's text
+        $("#myInput").val($(this).text());
+        $("#output").text($(this).text());
+      });
+
+    });
+  </script>
+</body>
+</html>
