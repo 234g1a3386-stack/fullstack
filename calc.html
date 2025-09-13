@@ -1,0 +1,22 @@
+<input id="a" type="number" placeholder="Num 1">
+<input id="b" type="number" placeholder="Num 2">
+<select id="op">
+  <option value="+">+</option>
+  <option value="-">-</option>
+  <option value="*">*</option>
+  <option value="/">/</option>
+</select>
+<button onclick="calc()">=</button>
+<div id="res"></div>
+
+<script>
+  function calc() {
+    let a = +document.getElementById('a').value,
+        b = +document.getElementById('b').value,
+        op = document.getElementById('op').value,
+        res;
+    if(op === '/' && b === 0) res = 'Error: Div by 0';
+    else res = eval(a + op + b);
+    document.getElementById('res').textContent = res;
+  }
+</script>
